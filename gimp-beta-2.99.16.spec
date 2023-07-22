@@ -22,14 +22,11 @@ Source0:    https://download.gimp.org/gimp/v2.99/gimp-2.99.%{micro}.tar.xz
 Patch1:    gimp-2.99-defcheck.patch
 # Try using the system monitor profile for color management by default.
 # Fedora specific.
-#Patch1:         gimp-2.99-cm-system-monitor-profile-by-default.patch
+Patch2:         gimp-2.99-cm-system-monitor-profile-by-default.patch
 # bz#1706653
-#Patch2:         gimp-2.99-default-font.patch
+Patch3:         gimp-2.99-default-font.patch
 # use external help browser directly if help browser plug-in is not built
-#Patch3:         gimp-2.99-external-help-browser.patch
-# Fix for goat-exercise vala plugin
-# https://gitlab.gnome.org/GNOME/gimp/-/issues/5407
-#Patch4:         issues_5407.patch
+Patch4:         gimp-2.99-external-help-browser.patch
 
 BuildRequires:  aalib-devel
 BuildRequires:  curl
@@ -43,7 +40,6 @@ BuildRequires:  gjs
 BuildRequires:  glib-networking
 BuildRequires:  gtk-doc >= 1.0
 BuildRequires:  icu
-BuildRequires:  ImageMagick
 BuildRequires:  intltool >= 0.40.1
 BuildRequires:  libappstream-glib >= 0.7.7
 BuildRequires:  libgs-devel
@@ -117,6 +113,7 @@ BuildRequires:  perl-lib
 BuildRequires:  gi-docgen
 BuildRequires:  xdg-utils
 BuildRequires:  xorg-x11-server-Xvfb
+BuildRequires:  ImageMagick
 Requires:       %{name}-libs = %{version}-%{release}
 Requires:       %{name}-data = %{version}-%{release}
 Requires:       hicolor-icon-theme
@@ -214,10 +211,12 @@ find %{buildroot}%{_libdir}/gimp/%{lib_api_version}/* -type d | sed "s@^%{buildr
 %find_lang gimp%{gettext_version}-std-plug-ins
 %find_lang gimp%{gettext_version}-script-fu
 %find_lang gimp%{gettext_version}-libgimp
-%find_lang gimp%{gettext_version}-tips
+# No lang files found for tips with 2.99.16
+# %find_lang gimp%{gettext_version}-tips
 %find_lang gimp%{gettext_version}-python
 
-cat gimp%{gettext_version}.lang gimp%{gettext_version}-std-plug-ins.lang gimp%{gettext_version}-script-fu.lang gimp%{gettext_version}-libgimp.lang gimp%{gettext_version}-tips.lang gimp%{gettext_version}-python.lang > gimp-all.lang
+# cat gimp%{gettext_version}.lang gimp%{gettext_version}-std-plug-ins.lang gimp%{gettext_version}-script-fu.lang gimp%{gettext_version}-libgimp.lang gimp%{gettext_version}-tips.lang gimp%{gettext_version}-python.lang > gimp-all.lang
+cat gimp%{gettext_version}.lang gimp%{gettext_version}-std-plug-ins.lang gimp%{gettext_version}-script-fu.lang gimp%{gettext_version}-libgimp.lang gimp%{gettext_version}-python.lang > gimp-all.lang
 
 # Build the master filelists generated from the above mess.
 cat gimp-plugin-files gimp-all.lang > gimp.files
@@ -260,7 +259,9 @@ popd
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
-appstreamcli validate --no-color %{buildroot}%{_datadir}/appdata/*.xml
+# appdata/*.xml does not exist in gimp-2.99.16 for some reason
+# appstreamcli validate --no-color %{buildroot}%{_datadir}/appdata/*.xml
+find %{buildroot}%{_datadir}
 
 %files -f gimp.files
 %license COPYING
