@@ -162,6 +162,16 @@ The %{name}-devel package contains the static libraries and header files
 for writing GNU Image Manipulation Program (GIMP) plug-ins and
 extensions.
 
+%package devel-doc
+Summary:        GIMP plugin and extension development documentation
+License:        LGPLv3+
+Requires:       %{name}-devel = %{version}-%{release}
+BuildArch:      noarch
+
+%description devel-doc
+The %{name}-devel-doc package contains documentation to
+build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
+
 %package devel-tools
 Summary:        GIMP plugin and extension development tools
 License:        LGPLv3+
@@ -245,9 +255,15 @@ find %{buildroot}%{_datadir}
 %files -f gimp.files
 %license COPYING
 %doc AUTHORS NEWS README
+%{_bindir}/gimp
 %{_bindir}/gimp-%{binver}
+%{_bindir}/gimp-console
 %{_bindir}/gimp-console-%{binver}
+%{_bindir}/gimp-script-fu-interpreter-3.0
+%{_bindir}/gimp-test-clipboard
 %{_bindir}/gimp-test-clipboard-%{lib_api_version}
+%{_libdir}/libgimp-scriptfu-3.0.so.0*
+%{_libexecdir}/gimp-debug-tool
 %{_libexecdir}/gimp-debug-tool-%{lib_api_version}
 
 %{_mandir}/man1/gimp-%{binver}.1*
@@ -325,7 +341,11 @@ find %{buildroot}%{_datadir}
 %{_datadir}/vala/vapi/gimp-3.0.*
 %{_datadir}/vala/vapi/gimp-ui-3.0.*
 
+%files devel-doc
+%doc ${_docdir}/gimp-%{binver}/*
+
 %files devel-tools
+%{_bindir}/gimptool
 %{_bindir}/gimptool-%{lib_api_version}
 %{_mandir}/man1/gimptool-%{lib_api_version}.1*
 

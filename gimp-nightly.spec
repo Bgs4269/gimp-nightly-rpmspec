@@ -3,35 +3,32 @@
 
 %global major 2
 %global minor 99
-%global micro 2
+%global micro 16
 %global binver %{major}.%{minor}
 %global lib_api_version %{major}.%{minor}
 %global gettext_version 30
 
-%global commit          db996f218da437beecee233a25e5444169d41939
-%global snapshotdate    20210108
-%global shortcommit     %(c=%{commit}; echo ${c:0:7})
+%global commit 0fb801f7f5af61cb9d9d27095f0b2a13c5d8b639
+%global snapshotdate 20210108
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
 
-Name:       gimp-2.99
-Version:    2.99.4
+Name:       gimp-nightly
+Version:    2.99.%{micro}^%{snapshotdate}.%{shortcommit}
 Release:    1%{?dist}
 Summary:    GNU Image Manipulation Program
 
 License:    GPLv3+ and GPLv3
 URL:        https://www.gimp.org/
 	
-Source0:       https://gitlab.gnome.org/GNOME/gimp/-/archive/%{commit}/gimp-%{commit}.tar.bz2
+Source0:    https://gitlab.gnome.org/GNOME/gimp/-/archive/%{commit}/gimp-%{commit}.tar.bz2
 
+# https://gitlab.gnome.org/GNOME/gimp/-/issues/9633
+Patch1:    gimp-2.99-defcheck.patch
 # Try using the system monitor profile for color management by default.
 # Fedora specific.
-Patch1:         gimp-2.99-cm-system-monitor-profile-by-default.patch
+Patch2:         gimp-2.99-cm-system-monitor-profile-by-default.patch
 # bz#1706653
-Patch2:         gimp-2.99-default-font.patch
-# use external help browser directly if help browser plug-in is not built
-Patch3:         gimp-2.99-external-help-browser.patch
-# Fix for goat-exercise vala plugin
-# https://gitlab.gnome.org/GNOME/gimp/-/issues/5407
-Patch4:         issues_5407.patch
+Patch3:         gimp-2.99-default-font.patch
 
 BuildRequires:  aalib-devel
 BuildRequires:  curl
@@ -45,34 +42,35 @@ BuildRequires:  gjs
 BuildRequires:  glib-networking
 BuildRequires:  gtk-doc >= 1.0
 BuildRequires:  icu
-BuildRequires:  ImageMagick
 BuildRequires:  intltool >= 0.40.1
 BuildRequires:  libappstream-glib >= 0.7.7
 BuildRequires:  libgs-devel
 BuildRequires:  luajit
+BuildRequires:  appstream >= 0.15.3
 BuildRequires:  meson >= 0.50.0
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
+BuildRequires:  pkgconfig(babl-0.1) >= 0.1.100
+BuildRequires:  pkgconfig(gegl-0.4) >= 0.4.46
+BuildRequires:  pkgconfig(libjxl) >= 0.6.1
 BuildRequires:  pkgconfig(alsa) >= 1.0.0
 BuildRequires:  pkgconfig(appstream-glib) >= 0.7.7
 BuildRequires:  pkgconfig(atk) >= 2.4.0
-BuildRequires:  pkgconfig(babl) >= 0.1.78
 BuildRequires:  pkgconfig(bzip2)
-BuildRequires:  pkgconfig(cairo) >= 1.12.2
+BuildRequires:  pkgconfig(cairo) >= 1.14.0
 BuildRequires:  pkgconfig(cairo-pdf) >= 1.12.2
 BuildRequires:  pkgconfig(dbus-glib-1)
 BuildRequires:  pkgconfig(fontconfig) >= 2.12.4
 BuildRequires:  pkgconfig(freetype2) >= 2.1.7
 BuildRequires:  pkgconfig(gdk-pixbuf-2.0) >= 2.30.8
-BuildRequires:  pkgconfig(gegl-0.4) >= 0.4.26
-BuildRequires:  pkgconfig(gexiv2) >= 0.10.6
+BuildRequires:  pkgconfig(gexiv2) >= 0.14.0
 BuildRequires:  pkgconfig(gio-unix-2.0)
-BuildRequires:  pkgconfig(glib-2.0) >= 2.56.2
+BuildRequires:  pkgconfig(glib-2.0) >= 2.70.0
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0) >= 3.16.10
 BuildRequires:  pkgconfig(gudev-1.0)
 BuildRequires:  pkgconfig(gutenprint)
-BuildRequires:  pkgconfig(harfbuzz) >= 0.9.19
+BuildRequires:  pkgconfig(harfbuzz) >= 1.0.5
 BuildRequires:  pkgconfig(iso-codes)
 BuildRequires:  pkgconfig(json-glib-1.0) >= 1.2.6
 BuildRequires:  pkgconfig(lcms2) >= 2.8
@@ -81,7 +79,7 @@ BuildRequires:  pkgconfig(libart-2.0) >= 2.3.19
 BuildRequires:  pkgconfig(libexif) >= 0.6.15
 # RPMFusion free
 %if %{with heif}
-BuildRequires:  pkgconfig(libheif) >= 1.6.0
+BuildRequires:  pkgconfig(libheif) >= 1.3.2
 %endif
 BuildRequires:  pkgconfig(libjpeg)
 BuildRequires:  pkgconfig(liblzma) >= 5.0.0
@@ -97,7 +95,7 @@ BuildRequires:  pkgconfig(libwmf) >= 0.2.8
 BuildRequires:  pkgconfig(libxslt)
 BuildRequires:  pkgconfig(mypaint-brushes-1.0) >= 1.3.0
 BuildRequires:  pkgconfig(OpenEXR) >= 1.6.1
-BuildRequires:  pkgconfig(pangocairo) >= 1.42.0
+BuildRequires:  pkgconfig(pangocairo) >= 1.44.0
 BuildRequires:  pkgconfig(pangoft2) >= 1.29.4
 BuildRequires:  pkgconfig(poppler-data) >= 0.4.9
 BuildRequires:  pkgconfig(poppler-glib) >= 0.69.0
@@ -113,12 +111,16 @@ BuildRequires:  pkgconfig(xmu)
 BuildRequires:  pkgconfig(xpm)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  vala
+BuildRequires:  perl-lib
+BuildRequires:  gi-docgen
 BuildRequires:  xdg-utils
 BuildRequires:  xorg-x11-server-Xvfb
+BuildRequires:  ImageMagick
 Requires:       %{name}-libs = %{version}-%{release}
 Requires:       %{name}-data = %{version}-%{release}
 Requires:       hicolor-icon-theme
 Requires:       xdg-utils
+Requires:       cfitsio
 Recommends:     darktable
 Recommends:     ghostscript
 Recommends:     gjs
@@ -164,16 +166,6 @@ The %{name}-devel package contains the static libraries and header files
 for writing GNU Image Manipulation Program (GIMP) plug-ins and
 extensions.
 
-%package devel-doc
-Summary:        GIMP plugin and extension development documentation
-License:        LGPLv3+
-Requires:       %{name}-devel = %{version}-%{release}
-BuildArch:      noarch
-
-%description devel-doc
-The %{name}-devel-doc package contains documentation to
-build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
-
 %package devel-tools
 Summary:        GIMP plugin and extension development tools
 License:        LGPLv3+
@@ -183,21 +175,11 @@ Requires:       %{name}-devel = %{version}-%{release}
 The %{name}-devel-tools package contains gimptool, a helper program to
 build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 
-%package help-browser
-Summary:        GIMP help browser plug-in
-License:        GPLv3+
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-
-%description help-browser
-The %{name}-help-browser package contains a lightweight help browser plugin for
-viewing GIMP online help.
-
 %prep
 %autosetup -p1 -n gimp-%{commit}
-sed -i "s|0.4.27|0.4.26|" meson.build
 
 %build
-%meson %{!?with_heif:-Dheif=disabled}
+%meson %{!?with_heif:-Dheif=disabled} -Ddebug=false -Dpython=enabled --buildtype=release
 %meson_build
 
 %install
@@ -212,10 +194,12 @@ find %{buildroot}%{_libdir}/gimp/%{lib_api_version}/* -type d | sed "s@^%{buildr
 %find_lang gimp%{gettext_version}-std-plug-ins
 %find_lang gimp%{gettext_version}-script-fu
 %find_lang gimp%{gettext_version}-libgimp
-%find_lang gimp%{gettext_version}-tips
+# No lang files found for tips with 2.99.16
+# %find_lang gimp%{gettext_version}-tips
 %find_lang gimp%{gettext_version}-python
 
-cat gimp%{gettext_version}.lang gimp%{gettext_version}-std-plug-ins.lang gimp%{gettext_version}-script-fu.lang gimp%{gettext_version}-libgimp.lang gimp%{gettext_version}-tips.lang gimp%{gettext_version}-python.lang > gimp-all.lang
+# cat gimp%{gettext_version}.lang gimp%{gettext_version}-std-plug-ins.lang gimp%{gettext_version}-script-fu.lang gimp%{gettext_version}-libgimp.lang gimp%{gettext_version}-tips.lang gimp%{gettext_version}-python.lang > gimp-all.lang
+cat gimp%{gettext_version}.lang gimp%{gettext_version}-std-plug-ins.lang gimp%{gettext_version}-script-fu.lang gimp%{gettext_version}-libgimp.lang gimp%{gettext_version}-python.lang > gimp-all.lang
 
 # Build the master filelists generated from the above mess.
 cat gimp-plugin-files gimp-all.lang > gimp.files
@@ -250,15 +234,17 @@ for srcicon in */apps/gimp.png; do
     mkdir -p "$destdir"
     convert "$srcicon" \
         -gravity northeast -pointsize $ps -strokewidth $sw \
-        -stroke black -annotate +$o+$(($o+$ps)) %{major}.%{minor} \
-        -stroke none -fill white -annotate +$o+$(($o+$ps)) %{major}.%{minor} \
+        -stroke black -annotate +$o+$(($o+$ps)) %{snapshotdate} \
+        -stroke none -fill white -annotate +$o+$(($o+$ps)) %{snapshotdate} \
         "$desticon"
 done
 popd
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.xml
+# metainfo file got removed in previous step
+#appstreamcli validate --no-color %{buildroot}%{_datadir}/metainfo/*.xml
+find %{buildroot}%{_datadir}
 
 %files -f gimp.files
 %license COPYING
@@ -280,19 +266,17 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.xml
 %config(noreplace) %{_sysconfdir}/gimp/%{lib_api_version}/unitrc
 %config(noreplace) %{_sysconfdir}/gimp/%{lib_api_version}/sessionrc
 %config(noreplace) %{_sysconfdir}/gimp/%{lib_api_version}/templaterc
-%config(noreplace) %{_sysconfdir}/gimp/%{lib_api_version}/menurc
 %config(noreplace) %{_sysconfdir}/gimp/%{lib_api_version}/toolrc
 
 %dir %{_libdir}/gimp
 %dir %{_libdir}/gimp/%{lib_api_version}
-%exclude %{_libdir}/gimp/%{lib_api_version}/plug-ins/help-browser
 %dir %{_libdir}/girepository-1.0
 %{_libdir}/girepository-1.0/Gimp-3.0.typelib
 %{_libdir}/girepository-1.0/GimpUi-3.0.typelib
 
 %{_datadir}/applications/*.desktop
-# %%{_datadir}/metainfo/*.appdata.xml
-%{_datadir}/appdata/*.metainfo.xml
+# metainfo file got removed in previous step
+# %%{_datadir}/metainfo/*.xml
 
 %{_datadir}/icons/hicolor/*/apps/gimp.png
 %{_datadir}/icons/hicolor/*/apps/gimp-%{lib_api_version}.png
@@ -306,7 +290,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.xml
 %{_datadir}/gimp/%{lib_api_version}/tags/
 %{_datadir}/gimp/%{lib_api_version}/tips/
 %{_datadir}/gimp/%{lib_api_version}/tool-presets/
-%{_datadir}/gimp/%{lib_api_version}/ui/
+%{_datadir}/gimp/%{lib_api_version}/fonts/
 %{_datadir}/gimp/%{lib_api_version}/brushes/
 %{_datadir}/gimp/%{lib_api_version}/fractalexplorer/
 %{_datadir}/gimp/%{lib_api_version}/gfig/
@@ -335,29 +319,27 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.xml
 %{_libdir}/libgimpwidgets-3.0.so.0*
 
 %files devel
-%doc HACKING README.i18n
-%doc %{_datadir}/gtk-doc
+%doc README.i18n
 %{_libdir}/*.so
 %{_includedir}/gimp-3.0
 %{_libdir}/pkgconfig/*
-%{_datadir}/aclocal/*.m4
 %dir %{_datadir}/gir-1.0
 %{_datadir}/gir-1.0/Gimp-3.0.gir
 %{_datadir}/gir-1.0/GimpUi-3.0.gir
 %{_datadir}/vala/vapi/gimp-3.0.*
 %{_datadir}/vala/vapi/gimp-ui-3.0.*
 
-%files devel-doc
-%doc %{_datadir}/gtk-doc
-
 %files devel-tools
 %{_bindir}/gimptool-%{lib_api_version}
 %{_mandir}/man1/gimptool-%{lib_api_version}.1*
 
-%files help-browser
-%{_libdir}/gimp/%{lib_api_version}/plug-ins/help-browser
-
 %changelog
+* Sat Jul 22 19:29:00 CEST 2023 uriesk <uriesk@posteo.de> - 2.99.16^20230722.0fb801f
+- Update to commit to create nightly package
+
+* Sat Jul 22 19:29:00 CEST 2023 uriesk <uriesk@posteo.de> - 2.99.16
+- Update to 2.99.16
+
 * Fri Dec 11 02:51:57 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.99.2-1
 - Update to 2.99.2
 
