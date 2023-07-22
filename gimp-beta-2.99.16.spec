@@ -7,7 +7,7 @@
 
 Name:       gimp-2.99
 Version:    2.99.%{micro}
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    GNU Image Manipulation Program
 
 License:    GPLv3+ and GPLv3
@@ -225,8 +225,8 @@ for srcicon in */apps/gimp.png; do
     mkdir -p "$destdir"
     convert "$srcicon" \
         -gravity northeast -pointsize $ps -strokewidth $sw \
-        -stroke black -annotate +$o+$(($o+$ps)) %{major}.%{minor} \
-        -stroke none -fill white -annotate +$o+$(($o+$ps)) %{major}.%{minor} \
+        -stroke black -annotate +$o+$(($o+$ps)) %{major}.%{minor}.%{micro} \
+        -stroke none -fill white -annotate +$o+$(($o+$ps)) %{major}.%{minor}.%{micro} \
         "$desticon"
 done
 popd
