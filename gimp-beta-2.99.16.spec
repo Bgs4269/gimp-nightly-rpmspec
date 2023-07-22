@@ -18,6 +18,8 @@ URL:        https://www.gimp.org/
 	
 Source0:    https://download.gimp.org/gimp/v2.99/gimp-2.99.%{micro}.tar.xz
 
+# https://gitlab.gnome.org/GNOME/gimp/-/issues/9633
+Patch1:    gimp-2.99-defcheck.patch
 # Try using the system monitor profile for color management by default.
 # Fedora specific.
 #Patch1:         gimp-2.99-cm-system-monitor-profile-by-default.patch
@@ -111,7 +113,6 @@ BuildRequires:  pkgconfig(xmu)
 BuildRequires:  pkgconfig(xpm)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  vala
-BuildRequires:  perl-local-lib
 BuildRequires:  perl-lib
 BuildRequires:  gi-docgen
 BuildRequires:  xdg-utils
@@ -198,7 +199,7 @@ viewing GIMP online help.
 %autosetup -p1 -n gimp-2.99.%{micro}
 
 %build
-%meson %{!?with_heif:-Dheif=disabled}
+%meson %{!?with_heif:-Dheif=disabled} -Ddebug=false -Dpython=enabled --buildtype=release
 %meson_build
 
 %install

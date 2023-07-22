@@ -1,0 +1,17 @@
+--- a/tools/defcheck.py
++++ b/tools/defcheck.py
+@@ -81,11 +81,11 @@
+          unsortindex = i+1
+          break;
+
+-   status, nm = subprocess.getstatusoutput ("nm --defined-only --extern-only " +
++   status, nm = subprocess.getstatusoutput ("nm --dynamic --defined-only --extern-only " +
+                                             libname)
+    if status != 0:
+       libname_meson = path.join(directory, "lib" + basename + "-*.so")
+-      status, nm = subprocess.getstatusoutput ("nm --defined-only --extern-only " +
++      status, nm = subprocess.getstatusoutput ("nm --dynamic --defined-only --extern-only " +
+                                                libname_meson)
+       if status != 0:
+         print("trouble reading {} or {} - has it been compiled?".format(libname, libname_meson))
+
