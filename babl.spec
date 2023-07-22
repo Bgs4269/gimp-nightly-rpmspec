@@ -19,7 +19,7 @@
 Summary:	A dynamic, any to any, pixel format conversion library
 Name:		babl
 Version:	0.1.106
-Release:	1%{?dist}
+Release:	3%{?dist}
 
 # Compute some version related macros
 # Ugly hack, you need to get your quoting backslashes/percent signs straight
@@ -29,11 +29,12 @@ Release:	1%{?dist}
 %global apiver %major.%minor
 
 # The gggl codes contained in this package are under the GPL, with exceptions allowing their use under libraries covered under the LGPL
-License:	LGPLv3+ and GPLv3+
-URL:		http://www.gegl.org/babl/
+License:	LGPL-3.0-or-later AND GPL-3.0-or-later
+URL:		https://www.gegl.org/babl/
 Source0:	https://download.gimp.org/pub/babl/%{apiver}/%{name}-%{version}.tar.xz
 
 BuildRequires:	gcc
+BuildRequires:	openssh-clients
 BuildRequires:	gobject-introspection-devel
 BuildRequires:	librsvg2-tools
 BuildRequires:	meson, vala
@@ -81,10 +82,8 @@ This package contains documentation needed for developing with %{name}.
 %meson_install
 
 mkdir -p "%{buildroot}/%{develdocdir}"
-cp -pr docs/graphics docs/*.html docs/babl.css "%{buildroot}/%{develdocdir}"
-rm -f "%{buildroot}/%{develdocdir}"/graphics/meson.build
-rm -f "%{buildroot}/%{develdocdir}"/graphics/.gitignore
-
+cp -pr "%{_vpath_builddir}"/docs/* "%{buildroot}/%{develdocdir}"
+rm -f "%{buildroot}/%{develdocdir}/index.html.tmp"
 
 %check
 # skip tests known to be problematic in a specific version
@@ -107,6 +106,7 @@ popd
 %files
 %license docs/COPYING*
 %doc AUTHORS NEWS
+%{_bindir}/babl
 %{_libdir}/libbabl-%{apiver}.so.0*
 %{_libdir}/babl-%{apiver}/
 %dir %{_libdir}/girepository-1.0
@@ -115,7 +115,7 @@ popd
 %files devel
 %{_includedir}/babl-%{apiver}/
 %{_libdir}/libbabl-%{apiver}.so
-%{_libdir}/pkgconfig/%{name}.pc
+%{_libdir}/pkgconfig/%{name}-%{apiver}.pc
 %dir %{_datadir}/gir-1.0
 %{_datadir}/gir-1.0/Babl-%{apiver}.gir
 %{_datadir}/vala/
@@ -124,6 +124,51 @@ popd
 %doc %{develdocdir}
 
 %changelog
+* Wed Jul 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.102-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
+
+* Tue May 02 2023 Josef Ridky <jridky@redhat.com> - 0.1.102-2
+- move to SPDX license format
+
+* Tue Mar 07 2023 David King <amigadave@amigadave.com> - 0.1.102-1
+- Update to 0.1.102
+
+* Wed Jan 18 2023 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.92-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
+
+* Tue Aug 02 2022 Josef Ridky <jridky@redhat.com> - 0.1.92-3
+- Fix FTBFS in F37 (#2113117)
+
+* Wed Jul 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.92-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
+
+* Thu Mar 31 2022 Josef Ridky <jridky@redhat.com> - 0.1.92-1
+- New upstream release 0.1.92
+
+* Mon Mar 14 2022 Josef Ridky <jridky@redhat.com> - 0.1.90-2
+- Fix docs install to include all files
+
+* Mon Mar 14 2022 Josef Ridky <jridky@redhat.com> - 0.1.90-1
+- New upstream release 0.1.90
+
+* Wed Jan 19 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.88-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
+* Mon Oct 18 2021 Josef Ridky <jridky@redhat.com> - 0.1.88-1
+- New upstream release 0.1.88
+
+* Mon Aug 02 2021 Josef Ridky <jridky@redhat.com> - 0.1.86-3
+- fix FTBFS by adding openssh-clients requirement (#1987380)
+
+* Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.86-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
+* Fri Apr 02 2021 Kalev Lember <klember@redhat.com> - 0.1.86-1
+- Update to 0.1.86
+
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.82-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Fri Oct 16 2020 Kalev Lember <klember@redhat.com> - 0.1.82-1
 - Update to 0.1.82
 - Tighten soname globs
