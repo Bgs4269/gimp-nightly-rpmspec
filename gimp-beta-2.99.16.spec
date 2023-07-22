@@ -51,6 +51,7 @@ BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  pkgconfig(babl-0.1) >= 0.1.100
 BuildRequires:  pkgconfig(gegl-0.4) >= 0.4.46
+BuildRequires:  pkgconfig(libjxl) >= 0.6.1
 BuildRequires:  pkgconfig(alsa) >= 1.0.0
 BuildRequires:  pkgconfig(appstream-glib) >= 0.7.7
 BuildRequires:  pkgconfig(atk) >= 2.4.0
