@@ -52,7 +52,7 @@ BuildRequires:  perl-interpreter
 BuildRequires:  pkgconfig(alsa) >= 1.0.0
 BuildRequires:  pkgconfig(appstream-glib) >= 0.7.7
 BuildRequires:  pkgconfig(atk) >= 2.4.0
-BuildRequires:  pkgconfig(babl) >= 0.1.78
+BuildRequires:  pkgconfig(babl) >= 0.1.98
 BuildRequires:  pkgconfig(bzip2)
 BuildRequires:  pkgconfig(cairo) >= 1.12.2
 BuildRequires:  pkgconfig(cairo-pdf) >= 1.12.2
@@ -189,7 +189,7 @@ The %{name}-help-browser package contains a lightweight help browser plugin for
 viewing GIMP online help.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n gimp-2.99.%{micro}
 
 %build
 %meson %{!?with_heif:-Dheif=disabled}

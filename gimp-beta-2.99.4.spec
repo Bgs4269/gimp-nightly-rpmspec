@@ -24,14 +24,14 @@ Source0:       https://gitlab.gnome.org/GNOME/gimp/-/archive/%{commit}/gimp-%{co
 
 # Try using the system monitor profile for color management by default.
 # Fedora specific.
-#Patch1:         gimp-2.99-cm-system-monitor-profile-by-default.patch
+Patch1:         gimp-2.99-cm-system-monitor-profile-by-default.patch
 # bz#1706653
-#Patch2:         gimp-2.99-default-font.patch
+Patch2:         gimp-2.99-default-font.patch
 # use external help browser directly if help browser plug-in is not built
-#Patch3:         gimp-2.99-external-help-browser.patch
+Patch3:         gimp-2.99-external-help-browser.patch
 # Fix for goat-exercise vala plugin
 # https://gitlab.gnome.org/GNOME/gimp/-/issues/5407
-#Patch4:         issues_5407.patch
+Patch4:         issues_5407.patch
 
 BuildRequires:  aalib-devel
 BuildRequires:  curl
