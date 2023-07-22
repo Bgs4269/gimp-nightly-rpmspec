@@ -46,6 +46,7 @@ BuildRequires:  intltool >= 0.40.1
 BuildRequires:  libappstream-glib >= 0.7.7
 BuildRequires:  libgs-devel
 BuildRequires:  luajit
+BuildRequires:  appstream >= 0.15.3
 BuildRequires:  meson >= 0.50.0
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -110,12 +111,14 @@ BuildRequires:  pkgconfig(xmu)
 BuildRequires:  pkgconfig(xpm)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  vala
+BuildRequires:  gi-docgen
 BuildRequires:  xdg-utils
 BuildRequires:  xorg-x11-server-Xvfb
 Requires:       %{name}-libs = %{version}-%{release}
 Requires:       %{name}-data = %{version}-%{release}
 Requires:       hicolor-icon-theme
 Requires:       xdg-utils
+Requires:       cfitsio
 Recommends:     darktable
 Recommends:     ghostscript
 Recommends:     gjs
@@ -254,7 +257,7 @@ popd
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.xml
+appstreamcli validate --no-color %{buildroot}%{_datadir}/appdata/*.xml
 
 %files -f gimp.files
 %license COPYING
