@@ -1,6 +1,3 @@
-# build with HEIF support (needs RPMFusion free)
-%bcond_with heif
-
 %global major 2
 %global minor 99
 %global micro 16
@@ -9,7 +6,7 @@
 %global gettext_version 30
 
 %global commit 0fb801f7f5af61cb9d9d27095f0b2a13c5d8b639
-%global snapshotdate 20210108
+%global snapshotdate 20230722
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:       gimp-nightly
@@ -77,10 +74,7 @@ BuildRequires:  pkgconfig(lcms2) >= 2.8
 BuildRequires:  pkgconfig(libarchive)
 BuildRequires:  pkgconfig(libart-2.0) >= 2.3.19
 BuildRequires:  pkgconfig(libexif) >= 0.6.15
-# RPMFusion free
-%if %{with heif}
 BuildRequires:  pkgconfig(libheif) >= 1.3.2
-%endif
 BuildRequires:  pkgconfig(libjpeg)
 BuildRequires:  pkgconfig(liblzma) >= 5.0.0
 BuildRequires:  pkgconfig(libmng)
@@ -166,6 +160,16 @@ The %{name}-devel package contains the static libraries and header files
 for writing GNU Image Manipulation Program (GIMP) plug-ins and
 extensions.
 
+%package devel-doc
+Summary:        GIMP plugin and extension development documentation
+License:        LGPLv3+
+Requires:       %{name}-devel = %{version}-%{release}
+BuildArch:      noarch
+
+%description devel-doc
+The %{name}-devel-doc package contains documentation to
+build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
+
 %package devel-tools
 Summary:        GIMP plugin and extension development tools
 License:        LGPLv3+
@@ -179,7 +183,7 @@ build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 %autosetup -p1 -n gimp-%{commit}
 
 %build
-%meson %{!?with_heif:-Dheif=disabled} -Ddebug=false -Dpython=enabled --buildtype=release
+%meson -Ddebug=false -Dpython=enabled -Dilbm=disabled --buildtype=release
 %meson_build
 
 %install
@@ -249,9 +253,15 @@ find %{buildroot}%{_datadir}
 %files -f gimp.files
 %license COPYING
 %doc AUTHORS NEWS README
+%{_bindir}/gimp
 %{_bindir}/gimp-%{binver}
+%{_bindir}/gimp-console
 %{_bindir}/gimp-console-%{binver}
+%{_bindir}/gimp-script-fu-interpreter-3.0
+%{_bindir}/gimp-test-clipboard
 %{_bindir}/gimp-test-clipboard-%{lib_api_version}
+%{_libdir}/libgimp-scriptfu-3.0.so.0*
+%{_libexecdir}/gimp-debug-tool
 %{_libexecdir}/gimp-debug-tool-%{lib_api_version}
 
 %{_mandir}/man1/gimp-%{binver}.1*
@@ -329,7 +339,11 @@ find %{buildroot}%{_datadir}
 %{_datadir}/vala/vapi/gimp-3.0.*
 %{_datadir}/vala/vapi/gimp-ui-3.0.*
 
+%files devel-doc
+%doc %{_datadir}/doc/gimp-%{binver}
+
 %files devel-tools
+%{_bindir}/gimptool
 %{_bindir}/gimptool-%{lib_api_version}
 %{_mandir}/man1/gimptool-%{lib_api_version}.1*
 

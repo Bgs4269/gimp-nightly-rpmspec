@@ -342,7 +342,7 @@ find %{buildroot}%{_datadir}
 %{_datadir}/vala/vapi/gimp-ui-3.0.*
 
 %files devel-doc
-%doc ${_docdir}/gimp-%{binver}/*
+%doc %{_datadir}/doc/gimp-%{binver}
 
 %files devel-tools
 %{_bindir}/gimptool

@@ -1,6 +1,7 @@
 # GIMP spec file to build RPMs on copr
 
-**work in progress**
+Spec files and patches to make gimp beta and nightly build on copr.
+Used for [COPR REPOSITORY](https://copr.fedorainfracloud.org/coprs/uriesk/gimp-nightly/)
 
 ## References
 
