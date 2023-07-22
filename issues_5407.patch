@@ -1,0 +1,11 @@
+diff -up gimp-GIMP_2_99_2/meson.build.orig gimp-GIMP_2_99_2/meson.build
+--- gimp-GIMP_2_99_2/meson.build.orig	2020-10-25 21:25:47.000000000 +0100
++++ gimp-GIMP_2_99_2/meson.build	2020-12-11 03:05:12.622158397 +0100
+@@ -773,7 +773,6 @@ have_vala = add_languages('vala', requir
+ if have_vala
+   babl = declare_dependency(
+     dependencies: [
+-      babl,
+       meson.get_compiler('vala').find_library('babl-0.1'),
+     ]
+   )
