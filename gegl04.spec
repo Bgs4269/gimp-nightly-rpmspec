@@ -2,7 +2,7 @@
 
 Name:           gegl04
 Version:        0.4.46
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Graph based image processing framework
 
 # The binary is under the GPL, while the libs are under LGPL.
@@ -27,7 +27,7 @@ BuildRequires:  suitesparse-devel
 BuildRequires:  vala
 BuildRequires:  asciidoc
 
-BuildRequires:  pkgconfig(babl-0.1) >= 0.1.100
+BuildRequires:  pkgconfig(babl-0.1) >= 0.1.106
 BuildRequires:  pkgconfig(cairo) >= 1.12.2
 BuildRequires:  pkgconfig(exiv2) >= 0.25
 BuildRequires:  pkgconfig(gdk-pixbuf-2.0) >= 2.32.0

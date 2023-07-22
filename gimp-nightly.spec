@@ -11,7 +11,7 @@
 
 Name:       gimp-nightly
 Version:    2.99.%{micro}^%{snapshotdate}.%{shortcommit}
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    GNU Image Manipulation Program
 
 License:    GPLv3+ and GPLv3

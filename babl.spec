@@ -19,7 +19,7 @@
 Summary:	A dynamic, any to any, pixel format conversion library
 Name:		babl
 Version:	0.1.106
-Release:	3%{?dist}
+Release:	4%{?dist}
 
 # Compute some version related macros
 # Ugly hack, you need to get your quoting backslashes/percent signs straight

@@ -7,7 +7,7 @@
 
 Name:       gimp-2.99
 Version:    2.99.%{micro}
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    GNU Image Manipulation Program
 
 License:    GPLv3+ and GPLv3
