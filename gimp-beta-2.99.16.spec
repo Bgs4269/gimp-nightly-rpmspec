@@ -25,8 +25,6 @@ Patch1:    gimp-2.99-defcheck.patch
 Patch2:         gimp-2.99-cm-system-monitor-profile-by-default.patch
 # bz#1706653
 Patch3:         gimp-2.99-default-font.patch
-# use external help browser directly if help browser plug-in is not built
-Patch4:         gimp-2.99-external-help-browser.patch
 
 BuildRequires:  aalib-devel
 BuildRequires:  curl
@@ -164,16 +162,6 @@ The %{name}-devel package contains the static libraries and header files
 for writing GNU Image Manipulation Program (GIMP) plug-ins and
 extensions.
 
-%package devel-doc
-Summary:        GIMP plugin and extension development documentation
-License:        LGPLv3+
-Requires:       %{name}-devel = %{version}-%{release}
-BuildArch:      noarch
-
-%description devel-doc
-The %{name}-devel-doc package contains documentation to
-build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
-
 %package devel-tools
 Summary:        GIMP plugin and extension development tools
 License:        LGPLv3+
@@ -182,15 +170,6 @@ Requires:       %{name}-devel = %{version}-%{release}
 %description devel-tools
 The %{name}-devel-tools package contains gimptool, a helper program to
 build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
-
-%package help-browser
-Summary:        GIMP help browser plug-in
-License:        GPLv3+
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-
-%description help-browser
-The %{name}-help-browser package contains a lightweight help browser plugin for
-viewing GIMP online help.
 
 %prep
 %autosetup -p1 -n gimp-2.99.%{micro}
@@ -259,8 +238,8 @@ popd
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
-# appdata/*.xml does not exist in gimp-2.99.16 for some reason
-# appstreamcli validate --no-color %{buildroot}%{_datadir}/appdata/*.xml
+# metainfo file got removed in previous step
+#appstreamcli validate --no-color %{buildroot}%{_datadir}/metainfo/*.xml
 find %{buildroot}%{_datadir}
 
 %files -f gimp.files
@@ -283,19 +262,17 @@ find %{buildroot}%{_datadir}
 %config(noreplace) %{_sysconfdir}/gimp/%{lib_api_version}/unitrc
 %config(noreplace) %{_sysconfdir}/gimp/%{lib_api_version}/sessionrc
 %config(noreplace) %{_sysconfdir}/gimp/%{lib_api_version}/templaterc
-%config(noreplace) %{_sysconfdir}/gimp/%{lib_api_version}/menurc
 %config(noreplace) %{_sysconfdir}/gimp/%{lib_api_version}/toolrc
 
 %dir %{_libdir}/gimp
 %dir %{_libdir}/gimp/%{lib_api_version}
-%exclude %{_libdir}/gimp/%{lib_api_version}/plug-ins/help-browser
 %dir %{_libdir}/girepository-1.0
 %{_libdir}/girepository-1.0/Gimp-3.0.typelib
 %{_libdir}/girepository-1.0/GimpUi-3.0.typelib
 
 %{_datadir}/applications/*.desktop
-# %%{_datadir}/metainfo/*.appdata.xml
-%{_datadir}/appdata/*.metainfo.xml
+# metainfo file got removed in previous step
+# %%{_datadir}/metainfo/*.xml
 
 %{_datadir}/icons/hicolor/*/apps/gimp.png
 %{_datadir}/icons/hicolor/*/apps/gimp-%{lib_api_version}.png
@@ -309,7 +286,7 @@ find %{buildroot}%{_datadir}
 %{_datadir}/gimp/%{lib_api_version}/tags/
 %{_datadir}/gimp/%{lib_api_version}/tips/
 %{_datadir}/gimp/%{lib_api_version}/tool-presets/
-%{_datadir}/gimp/%{lib_api_version}/ui/
+%{_datadir}/gimp/%{lib_api_version}/fonts/
 %{_datadir}/gimp/%{lib_api_version}/brushes/
 %{_datadir}/gimp/%{lib_api_version}/fractalexplorer/
 %{_datadir}/gimp/%{lib_api_version}/gfig/
@@ -338,29 +315,24 @@ find %{buildroot}%{_datadir}
 %{_libdir}/libgimpwidgets-3.0.so.0*
 
 %files devel
-%doc HACKING README.i18n
-%doc %{_datadir}/gtk-doc
+%doc README.i18n
 %{_libdir}/*.so
 %{_includedir}/gimp-3.0
 %{_libdir}/pkgconfig/*
-%{_datadir}/aclocal/*.m4
 %dir %{_datadir}/gir-1.0
 %{_datadir}/gir-1.0/Gimp-3.0.gir
 %{_datadir}/gir-1.0/GimpUi-3.0.gir
 %{_datadir}/vala/vapi/gimp-3.0.*
 %{_datadir}/vala/vapi/gimp-ui-3.0.*
 
-%files devel-doc
-%doc %{_datadir}/gtk-doc
-
 %files devel-tools
 %{_bindir}/gimptool-%{lib_api_version}
 %{_mandir}/man1/gimptool-%{lib_api_version}.1*
 
-%files help-browser
-%{_libdir}/gimp/%{lib_api_version}/plug-ins/help-browser
-
 %changelog
+* Sat Jul 22 19:29:00 CEST 2023 uriesk <uriesk@posteo.de> - 2.99.16
+- Update to 2.99.16
+
 * Fri Dec 11 02:51:57 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.99.2-1
 - Update to 2.99.2
 
