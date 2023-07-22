@@ -54,21 +54,21 @@ BuildRequires:  pkgconfig(appstream-glib) >= 0.7.7
 BuildRequires:  pkgconfig(atk) >= 2.4.0
 BuildRequires:  pkgconfig(babl) >= 0.1.98
 BuildRequires:  pkgconfig(bzip2)
-BuildRequires:  pkgconfig(cairo) >= 1.12.2
+BuildRequires:  pkgconfig(cairo) >= 1.14.0
 BuildRequires:  pkgconfig(cairo-pdf) >= 1.12.2
 BuildRequires:  pkgconfig(dbus-glib-1)
 BuildRequires:  pkgconfig(fontconfig) >= 2.12.4
 BuildRequires:  pkgconfig(freetype2) >= 2.1.7
 BuildRequires:  pkgconfig(gdk-pixbuf-2.0) >= 2.30.8
-BuildRequires:  pkgconfig(gegl-0.4) >= 0.4.26
-BuildRequires:  pkgconfig(gexiv2) >= 0.10.6
+BuildRequires:  pkgconfig(gegl-0.4) >= 0.4.46
+BuildRequires:  pkgconfig(gexiv2) >= 0.14.0
 BuildRequires:  pkgconfig(gio-unix-2.0)
-BuildRequires:  pkgconfig(glib-2.0) >= 2.56.2
+BuildRequires:  pkgconfig(glib-2.0) >= 2.70.0
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0) >= 3.16.10
 BuildRequires:  pkgconfig(gudev-1.0)
 BuildRequires:  pkgconfig(gutenprint)
-BuildRequires:  pkgconfig(harfbuzz) >= 0.9.19
+BuildRequires:  pkgconfig(harfbuzz) >= 1.0.5
 BuildRequires:  pkgconfig(iso-codes)
 BuildRequires:  pkgconfig(json-glib-1.0) >= 1.2.6
 BuildRequires:  pkgconfig(lcms2) >= 2.8
@@ -77,7 +77,7 @@ BuildRequires:  pkgconfig(libart-2.0) >= 2.3.19
 BuildRequires:  pkgconfig(libexif) >= 0.6.15
 # RPMFusion free
 %if %{with heif}
-BuildRequires:  pkgconfig(libheif) >= 1.6.0
+BuildRequires:  pkgconfig(libheif) >= 1.3.2
 %endif
 BuildRequires:  pkgconfig(libjpeg)
 BuildRequires:  pkgconfig(liblzma) >= 5.0.0
@@ -93,7 +93,7 @@ BuildRequires:  pkgconfig(libwmf) >= 0.2.8
 BuildRequires:  pkgconfig(libxslt)
 BuildRequires:  pkgconfig(mypaint-brushes-1.0) >= 1.3.0
 BuildRequires:  pkgconfig(OpenEXR) >= 1.6.1
-BuildRequires:  pkgconfig(pangocairo) >= 1.42.0
+BuildRequires:  pkgconfig(pangocairo) >= 1.44.0
 BuildRequires:  pkgconfig(pangoft2) >= 1.29.4
 BuildRequires:  pkgconfig(poppler-data) >= 0.4.9
 BuildRequires:  pkgconfig(poppler-glib) >= 0.69.0
