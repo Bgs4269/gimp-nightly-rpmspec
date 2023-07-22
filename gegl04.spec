@@ -8,7 +8,7 @@ Summary:        Graph based image processing framework
 # The binary is under the GPL, while the libs are under LGPL.
 License:        GPL-3.0-or-later AND LGPL-3.0-or-later
 URL:            https://www.gegl.org/
-Source0:        http://download.gimp.org/pub/gegl/%{apiver}/gegl-%{version}.tar.xz
+Source0:        https://download.gimp.org/pub/gegl/%{apiver}/gegl-%{version}.tar.xz
 
 Patch0:         gegl04-openexr.patch
 Patch1:         gegl04-gtk.patch
