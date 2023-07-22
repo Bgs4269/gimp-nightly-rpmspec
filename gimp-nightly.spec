@@ -208,15 +208,6 @@ cat gimp%{gettext_version}.lang gimp%{gettext_version}-std-plug-ins.lang gimp%{g
 # Build the master filelists generated from the above mess.
 cat gimp-plugin-files gimp-all.lang > gimp.files
 
-# Remove unversioned man pages
-rm -f %{buildroot}%{_mandir}/man1/gimp.1*
-rm -f %{buildroot}%{_mandir}/man1/gimp-console.1*
-rm -f %{buildroot}%{_mandir}/man5/gimprc.5*
-rm -f %{buildroot}%{_mandir}/man1/gimptool.1*
-
-# Remove unversioned metainfo (conflict with GIMP)
-rm  -f %{buildroot}%{_datadir}/metainfo/*.appdata.xml
-
 # desktop file -- mention version/unstable, use custom icon
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications \
     --set-name="GIMP %major.%minor" \
@@ -246,8 +237,7 @@ popd
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
-# metainfo file got removed in previous step
-#appstreamcli validate --no-color %{buildroot}%{_datadir}/metainfo/*.xml
+appstreamcli validate --no-color %{buildroot}%{_datadir}/metainfo/*.xml
 find %{buildroot}%{_datadir}
 
 %files -f gimp.files
@@ -264,6 +254,9 @@ find %{buildroot}%{_datadir}
 %{_libexecdir}/gimp-debug-tool
 %{_libexecdir}/gimp-debug-tool-%{lib_api_version}
 
+%{_mandir}/man1/gimp.1*
+%{_mandir}/man1/gimp-console.1*
+%{_mandir}/man5/gimprc.5*
 %{_mandir}/man1/gimp-%{binver}.1*
 %{_mandir}/man1/gimp-console-%{binver}.1*
 %{_mandir}/man5/gimprc-%{binver}.5*
@@ -285,10 +278,10 @@ find %{buildroot}%{_datadir}
 %{_libdir}/girepository-1.0/GimpUi-3.0.typelib
 
 %{_datadir}/applications/*.desktop
-# metainfo file got removed in previous step
-# %%{_datadir}/metainfo/*.xml
+%{_datadir}/metainfo/*.xml
 
 %{_datadir}/icons/hicolor/*/apps/gimp.png
+%{_datadir}/icons/hicolor/scalable/apps/gimp.svg
 %{_datadir}/icons/hicolor/*/apps/gimp-%{lib_api_version}.png
 
 %files data
@@ -345,6 +338,7 @@ find %{buildroot}%{_datadir}
 %files devel-tools
 %{_bindir}/gimptool
 %{_bindir}/gimptool-%{lib_api_version}
+%{_mandir}/man1/gimptool.1*
 %{_mandir}/man1/gimptool-%{lib_api_version}.1*
 
 %changelog
