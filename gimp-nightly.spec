@@ -11,7 +11,7 @@
 
 Name:       gimp-nightly
 Version:    2.99.%{micro}^%{snapshotdate}.%{shortcommit}
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    GNU Image Manipulation Program
 
 License:    GPLv3+ and GPLv3
@@ -109,7 +109,6 @@ BuildRequires:  perl-lib
 BuildRequires:  gi-docgen
 BuildRequires:  xdg-utils
 BuildRequires:  xorg-x11-server-Xvfb
-BuildRequires:  ImageMagick
 Requires:       %{name}-libs = %{version}-%{release}
 Requires:       %{name}-data = %{version}-%{release}
 Requires:       hicolor-icon-theme
@@ -210,30 +209,11 @@ cat gimp-plugin-files gimp-all.lang > gimp.files
 
 # desktop file -- mention version/unstable, use custom icon
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications \
-    --set-name="GIMP %major.%minor" \
-    --set-icon="gimp-%major.%minor" \
+    --set-name="GIMP Nightly %snapshotdate" \
+    --set-icon="gimp" \
     %{buildroot}%{_datadir}/applications/gimp.desktop
 mv -f %{buildroot}%{_datadir}/applications/gimp.desktop \
-    %{buildroot}%{_datadir}/applications/gimp-%major.%minor.desktop
-
-# icons -- overlay major.minor version
-pushd %{buildroot}%{_datadir}/icons/hicolor
-for srcicon in */apps/gimp.png; do
-    geo=${srcicon%%%%/*}
-    dim=${geo%%x*}
-    ps=$((5+$dim/6))
-    sw=$(($dim/50+1))
-    o=$(($dim/26+1))
-    destdir="%{buildroot}%{_datadir}/icons/hicolor/$geo/apps"
-    desticon="$destdir/gimp-%{major}.%{minor}.png"
-    mkdir -p "$destdir"
-    convert "$srcicon" \
-        -gravity northeast -pointsize $ps -strokewidth $sw \
-        -stroke black -annotate +$o+$(($o+$ps)) %{snapshotdate} \
-        -stroke none -fill white -annotate +$o+$(($o+$ps)) %{snapshotdate} \
-        "$desticon"
-done
-popd
+    %{buildroot}%{_datadir}/applications/gimp-nightly.desktop
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
@@ -282,7 +262,6 @@ find %{buildroot}%{_datadir}
 
 %{_datadir}/icons/hicolor/*/apps/gimp.png
 %{_datadir}/icons/hicolor/scalable/apps/gimp.svg
-%{_datadir}/icons/hicolor/*/apps/gimp-%{lib_api_version}.png
 
 %files data
 %dir %{_datadir}/gimp
