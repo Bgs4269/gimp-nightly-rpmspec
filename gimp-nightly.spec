@@ -11,7 +11,7 @@
 
 Name:       gimp-nightly
 Version:    2.99.%{micro}^%{snapshotdate}.%{shortcommit}
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    GNU Image Manipulation Program
 
 License:    GPLv3+ and GPLv3
@@ -21,11 +21,8 @@ Source0:    https://gitlab.gnome.org/GNOME/gimp/-/archive/%{commit}/gimp-%{commi
 
 # https://gitlab.gnome.org/GNOME/gimp/-/issues/9633
 Patch1:    gimp-2.99-defcheck.patch
-# Try using the system monitor profile for color management by default.
-# Fedora specific.
-Patch2:         gimp-2.99-cm-system-monitor-profile-by-default.patch
 # bz#1706653
-Patch3:         gimp-2.99-default-font.patch
+Patch2:    gimp-2.99-default-font.patch
 
 BuildRequires:  aalib-devel
 BuildRequires:  curl
@@ -114,6 +111,7 @@ Requires:       %{name}-data = %{version}-%{release}
 Requires:       hicolor-icon-theme
 Requires:       xdg-utils
 Requires:       cfitsio
+Requires:       lua-lgi-compat
 Recommends:     darktable
 Recommends:     ghostscript
 Recommends:     gjs
@@ -182,7 +180,7 @@ build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 %autosetup -p1 -n gimp-%{commit}
 
 %build
-%meson -Ddebug=false -Dpython=enabled -Dilbm=disabled --buildtype=release
+%meson -Ddebug=false -Dpython=enabled -Dilbm=disabled -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues --buildtype=release
 %meson_build
 
 %install
