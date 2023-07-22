@@ -112,6 +112,7 @@ BuildRequires:  pkgconfig(xpm)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  vala
 BuildRequires:  perl-local-lib
+BuildRequires:  perl-lib
 BuildRequires:  gi-docgen
 BuildRequires:  xdg-utils
 BuildRequires:  xorg-x11-server-Xvfb
