@@ -52,7 +52,7 @@ BuildRequires:  perl-interpreter
 BuildRequires:  pkgconfig(alsa) >= 1.0.0
 BuildRequires:  pkgconfig(appstream-glib) >= 0.7.7
 BuildRequires:  pkgconfig(atk) >= 2.4.0
-BuildRequires:  pkgconfig(babl) >= 0.1.98
+BuildRequires:  pkgconfig(babl) >= 0.1.106
 BuildRequires:  pkgconfig(bzip2)
 BuildRequires:  pkgconfig(cairo) >= 1.14.0
 BuildRequires:  pkgconfig(cairo-pdf) >= 1.12.2
@@ -60,7 +60,7 @@ BuildRequires:  pkgconfig(dbus-glib-1)
 BuildRequires:  pkgconfig(fontconfig) >= 2.12.4
 BuildRequires:  pkgconfig(freetype2) >= 2.1.7
 BuildRequires:  pkgconfig(gdk-pixbuf-2.0) >= 2.30.8
-BuildRequires:  pkgconfig(gegl-0.4) >= 0.4.46
+BuildRequires:  pkgconfig(gegl04) >= 0.4.46
 BuildRequires:  pkgconfig(gexiv2) >= 0.14.0
 BuildRequires:  pkgconfig(gio-unix-2.0)
 BuildRequires:  pkgconfig(glib-2.0) >= 2.70.0
