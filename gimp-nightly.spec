@@ -3,10 +3,10 @@
 %global major 2
 %global minor 99
 %global micro 17
-%global commit 095af5629c8e01ee94926bc81185cdda3aab2747
+%global commit 0485e36cce13aeccd56abf9e7e47d187f3cd7ee2
 %global snapshotyear 2023
-%global snapshotday 0723
-%global revision 5
+%global snapshotday 0724
+%global revision 1
 
 %forgemeta
 
@@ -106,6 +106,10 @@ BuildRequires:  pkgconfig(xfixes)
 BuildRequires:  pkgconfig(xmu)
 BuildRequires:  pkgconfig(xpm)
 BuildRequires:  pkgconfig(zlib)
+BuildRequires:  pkgconfig(cfitsio)
+BuildRequires:  cmake
+BuildRequires:  flex
+BuildRequires:  bison
 BuildRequires:  vala
 BuildRequires:  perl-lib
 BuildRequires:  gi-docgen
