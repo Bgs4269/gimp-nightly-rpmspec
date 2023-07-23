@@ -7,11 +7,12 @@
 
 %global commit 095af5629c8e01ee94926bc81185cdda3aab2747
 %global snapshotdate 20230723
+%global revision 3
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:       gimp-nightly
 Version:    2.99.%{micro}^%{snapshotdate}.%{shortcommit}
-Release:    3%{?dist}
+Release:    %{revision}%{?dist}
 Summary:    GNU Image Manipulation Program
 
 License:    GPLv3+ and GPLv3
@@ -111,10 +112,10 @@ Requires:       %{name}-data = %{version}-%{release}
 Requires:       hicolor-icon-theme
 Requires:       xdg-utils
 Requires:       cfitsio
-Requires:       lua-lgi-compat
 Recommends:     ghostscript
 Recommends:     gjs
 Recommends:     luajit
+Recommends:     lua-lgi-compat
 Recommends:     pygobject2
 Recommends:     mypaint-brushes
 #Recommends:     rawtherapee
@@ -187,7 +188,13 @@ build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 %autosetup -p1 -n gimp-%{commit}
 
 %build
-%meson -Ddebug=false -Dpython=enabled -Dilbm=disabled -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues --buildtype=release
+%meson -Ddebug=false \
+       -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues \
+       -Dbuild-id=%{commit} \
+       -Drevision=%{revision} \
+       -Dpython=enabled \
+       -Dilbm=disabled \
+       --buildtype=release
 %meson_build
 
 %install

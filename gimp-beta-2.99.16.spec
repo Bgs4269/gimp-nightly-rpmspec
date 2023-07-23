@@ -107,10 +107,10 @@ Requires:       %{name}-data = %{version}-%{release}
 Requires:       hicolor-icon-theme
 Requires:       xdg-utils
 Requires:       cfitsio
-Requires:       lua-lgi-compat
 Recommends:     ghostscript
 Recommends:     gjs
 Recommends:     luajit
+Recommends:     lua-lgi-compat
 Recommends:     pygobject2
 Recommends:     mypaint-brushes
 #Recommends:     rawtherapee
