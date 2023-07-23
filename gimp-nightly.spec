@@ -4,14 +4,16 @@
 %global minor 99
 %global micro 17
 %global commit 095af5629c8e01ee94926bc81185cdda3aab2747
-%global snapshotdate 20230723
+%global snapshotyear 2023
+%global snapshotday 0723
 %global revision 5
 
-%forgemeta -i -v
+%forgemeta
 
 %global binver %{major}.%{minor}
 %global lib_api_version %{major}.%{minor}
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global snapshotdate %{snapshotyear}%{snapshotday}
 %global gettext_version 30
 
 Name:       gimp-nightly
@@ -188,6 +190,15 @@ build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 
 %prep
 %forgeautosetup -p1
+
+# manually provide git-version.h to have the correct commit printed in Info
+echo "#ifndef __GIT_VERSION_H__
+#define __GIT_VERSION_H__
+#define GIMP_GIT_VERSION          \"GIMP_%{major}_%{minor}_%{micro}\"
+#define GIMP_GIT_VERSION_ABBREV   \"%{shortcommit}\"
+#define GIMP_GIT_LAST_COMMIT_YEAR \"%{snapshotyear}\"
+#endif /* __GIT_VERSION_H__ */
+" > git-version.h
 
 %build
 %meson --buildtype=release \
