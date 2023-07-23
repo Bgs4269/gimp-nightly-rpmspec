@@ -2,7 +2,7 @@
 
 Name:           gegl04
 Version:        0.4.46
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Graph based image processing framework
 
 # The binary is under the GPL, while the libs are under LGPL.
@@ -40,6 +40,7 @@ BuildRequires:  pkgconfig(lensfun) >= 0.2.5
 BuildRequires:  pkgconfig(libraw) >= 0.15.4
 BuildRequires:  pkgconfig(libpng) >= 1.6.0
 BuildRequires:  pkgconfig(librsvg-2.0) >= 2.40.6
+BuildRequires:  pkgconfig(maxflow)
 BuildRequires:  pkgconfig(libv4l2) >= 1.0.1
 BuildRequires:  pkgconfig(libwebp) >= 0.5.0
 BuildRequires:  pkgconfig(lua) >= 5.1.0
@@ -119,7 +120,7 @@ GEGL library.
 
 
 %build
-%meson --auto-features=auto -Ddocs=true -Dgtk-doc=true
+%meson --auto-features=auto -Ddocs=true -Dworkshop=true -Dgtk-doc=true
 %meson_build
 
 
