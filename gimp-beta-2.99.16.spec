@@ -183,7 +183,7 @@ build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 %autosetup -p1 -n gimp-2.99.%{micro}
 
 %build
-%meson -Ddebug=false -Dpython=enabled -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues --buildtype=release
+%meson -Dpython=enabled -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues --buildtype=release
 %meson_build
 
 %install

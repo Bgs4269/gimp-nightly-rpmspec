@@ -1,24 +1,26 @@
+%global forgeurl https://gitlab.gnome.org/GNOME/gimp
+
 %global major 2
 %global minor 99
 %global micro 17
-%global binver %{major}.%{minor}
-%global lib_api_version %{major}.%{minor}
-%global gettext_version 30
-
 %global commit 095af5629c8e01ee94926bc81185cdda3aab2747
 %global snapshotdate 20230723
-%global revision 3
+%global revision 5
+
+%forgemeta -i -v
+
+%global binver %{major}.%{minor}
+%global lib_api_version %{major}.%{minor}
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global gettext_version 30
 
 Name:       gimp-nightly
-Version:    2.99.%{micro}^%{snapshotdate}.%{shortcommit}
+Version:    %{major}.%{minor}.%{micro}^%{snapshotdate}.%{shortcommit}
 Release:    %{revision}%{?dist}
 Summary:    GNU Image Manipulation Program
-
 License:    GPLv3+ and GPLv3
-URL:        https://www.gimp.org/
-	
-Source0:    https://gitlab.gnome.org/GNOME/gimp/-/archive/%{commit}/gimp-%{commit}.tar.bz2
+URL:        %{forgeurl}
+Source0:    %{forgesource}
 
 # https://gitlab.gnome.org/GNOME/gimp/-/issues/9633
 Patch1:    gimp-2.99-defcheck.patch
@@ -185,16 +187,15 @@ The %{name}-devel-tools package contains gimptool, a helper program to
 build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 
 %prep
-%autosetup -p1 -n gimp-%{commit}
+%forgeautosetup -p1
 
 %build
-%meson -Ddebug=false \
+%meson --buildtype=release \
        -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues \
-       -Dbuild-id=%{commit} \
+       -Dbuild-id=%{snapshotdate}.%{shortcommit} \
        -Drevision=%{revision} \
        -Dpython=enabled \
-       -Dilbm=disabled \
-       --buildtype=release
+       -Dilbm=disabled
 %meson_build
 
 %install
@@ -231,7 +232,7 @@ rm -f %{buildroot}%{_libexecdir}/gimp-debug-tool
 
 # desktop file -- mention version and name it accordingly
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications \
-    --set-name="GIMP Beta %{major}.%{minor}" \
+    --set-name="GIMP Nightly %{major}.%{minor}" \
     --set-icon="gimp%{major}%{minor}" \
     %{buildroot}%{_datadir}/applications/gimp.desktop
 sed -i 's/org\.gimp\.GIMP/org.gimp.GIMP299/g' %{buildroot}%{_datadir}/metainfo/org.gimp.GIMP.appdata.xml
