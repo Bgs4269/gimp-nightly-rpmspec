@@ -7,7 +7,7 @@
 
 Name:       gimp-2.99
 Version:    2.99.%{micro}
-Release:    5%{?dist}
+Release:    7%{?dist}
 Summary:    GNU Image Manipulation Program
 
 License:    GPLv3+ and GPLv3
@@ -108,12 +108,14 @@ Requires:       hicolor-icon-theme
 Requires:       xdg-utils
 Requires:       cfitsio
 Requires:       lua-lgi-compat
-Recommends:     darktable
 Recommends:     ghostscript
 Recommends:     gjs
 Recommends:     luajit
 Recommends:     pygobject2
-Recommends:     rawtherapee
+Recommends:     mypaint-brushes
+#Recommends:     rawtherapee
+#Recommends:     darktable
+Conflicts:      gimp-nightly
 
 %description
 GIMP (GNU Image Manipulation Program) is a powerful image composition and
@@ -129,6 +131,7 @@ Summary:        GIMP data files
 License:        LGPLv3+
 Requires:       %{name}-data = %{version}-%{release}
 BuildArch:      noarch
+Conflicts:      gimp-nightly-data
 
 %description data
 The %{name}-data package contains data files needed for the GNU Image
@@ -137,6 +140,7 @@ Manipulation Program (GIMP).
 %package libs
 Summary:        GIMP libraries
 License:        LGPLv3+
+Conflicts:      gimp-nightly-libs
 
 %description libs
 The %{name}-libs package contains shared libraries needed for the GNU Image
@@ -147,6 +151,7 @@ Summary:        GIMP plugin and extension development kit
 License:        LGPLv3+
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 Requires:       %{name}-devel-tools = %{version}-%{release}
+Conflicts:      gimp-nightly-devel
 
 %description devel
 The %{name}-devel package contains the static libraries and header files
@@ -158,6 +163,7 @@ Summary:        GIMP plugin and extension development documentation
 License:        LGPLv3+
 Requires:       %{name}-devel = %{version}-%{release}
 BuildArch:      noarch
+Conflicts:      gimp-nightly-devel-doc
 
 %description devel-doc
 The %{name}-devel-doc package contains documentation to
@@ -167,6 +173,7 @@ build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 Summary:        GIMP plugin and extension development tools
 License:        LGPLv3+
 Requires:       %{name}-devel = %{version}-%{release}
+Conflicts:      gimp-nightly-devel-tools
 
 %description devel-tools
 The %{name}-devel-tools package contains gimptool, a helper program to
@@ -197,17 +204,44 @@ find %{buildroot}%{_libdir}/gimp/%{lib_api_version}/* -type d | sed "s@^%{buildr
 
 # cat gimp%{gettext_version}.lang gimp%{gettext_version}-std-plug-ins.lang gimp%{gettext_version}-script-fu.lang gimp%{gettext_version}-libgimp.lang gimp%{gettext_version}-tips.lang gimp%{gettext_version}-python.lang > gimp-all.lang
 cat gimp%{gettext_version}.lang gimp%{gettext_version}-std-plug-ins.lang gimp%{gettext_version}-script-fu.lang gimp%{gettext_version}-libgimp.lang gimp%{gettext_version}-python.lang > gimp-all.lang
-
 # Build the master filelists generated from the above mess.
 cat gimp-plugin-files gimp-all.lang > gimp.files
 
-# desktop file -- mention version/unstable, use custom icon
+# remove unversioned files for compatibility with stable gimp
+rm -f %{buildroot}%{_mandir}/man1/gimp.1*
+rm -f %{buildroot}%{_mandir}/man1/gimp-console.1*
+rm -f %{buildroot}%{_mandir}/man5/gimprc.5*
+rm -f %{buildroot}%{_mandir}/man1/gimptool.1*
+rm -f %{buildroot}%{_bindir}/gimp
+rm -f %{buildroot}%{_bindir}/gimp-console
+rm -f %{buildroot}%{_bindir}/gimp-test-clipboard
+rm -f %{buildroot}%{_bindir}/gimptool
+rm -f %{buildroot}%{_libexecdir}/gimp-debug-tool
+
+# desktop file -- mention version and name it accordingly
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications \
-    --set-name="GIMP Beta %major.%minor" \
-    --set-icon="gimp" \
+    --set-name="GIMP Beta %{major}.%{minor}" \
+    --set-icon="gimp%{major}%{minor}" \
     %{buildroot}%{_datadir}/applications/gimp.desktop
+sed -i 's/org\.gimp\.GIMP/org.gimp.GIMP299/g' %{buildroot}%{_datadir}/metainfo/org.gimp.GIMP.appdata.xml
+mv -f %{buildroot}%{_datadir}/metainfo/org.gimp.GIMP.appdata.xml \
+    %{buildroot}%{_datadir}/metainfo/org.gimp.GIMP%{major}%{minor}.appdata.xml
 mv -f %{buildroot}%{_datadir}/applications/gimp.desktop \
-    %{buildroot}%{_datadir}/applications/gimp-%major.%minor.desktop
+    %{buildroot}%{_datadir}/applications/org.gimp.GIMP%{major}%{minor}.desktop
+
+# rename icons to include version
+mv -f %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/gimp.svg \
+    %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/gimp%{major}%{minor}.svg
+pushd %{buildroot}%{_datadir}/icons/hicolor
+for srcicon in */apps/gimp.png; do
+    geo=${srcicon%%%%/*}
+    destdir="%{buildroot}%{_datadir}/icons/hicolor/$geo/apps"
+    desticon="$destdir/gimp%{major}%{minor}.png"
+    mkdir -p "$destdir"
+    # here we could modify the icons
+    mv -f "$srcicon" "$desticon"
+done
+popd
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
@@ -217,20 +251,13 @@ find %{buildroot}%{_datadir}
 %files -f gimp.files
 %license COPYING
 %doc AUTHORS NEWS README
-%{_bindir}/gimp
 %{_bindir}/gimp-%{binver}
-%{_bindir}/gimp-console
 %{_bindir}/gimp-console-%{binver}
 %{_bindir}/gimp-script-fu-interpreter-3.0
-%{_bindir}/gimp-test-clipboard
 %{_bindir}/gimp-test-clipboard-%{lib_api_version}
 %{_libdir}/libgimp-scriptfu-3.0.so.0*
-%{_libexecdir}/gimp-debug-tool
 %{_libexecdir}/gimp-debug-tool-%{lib_api_version}
 
-%{_mandir}/man1/gimp.1*
-%{_mandir}/man1/gimp-console.1*
-%{_mandir}/man5/gimprc.5*
 %{_mandir}/man1/gimp-%{binver}.1*
 %{_mandir}/man1/gimp-console-%{binver}.1*
 %{_mandir}/man5/gimprc-%{binver}.5*
@@ -253,9 +280,8 @@ find %{buildroot}%{_datadir}
 
 %{_datadir}/applications/*.desktop
 %{_datadir}/metainfo/*.xml
-
-%{_datadir}/icons/hicolor/*/apps/gimp.png
-%{_datadir}/icons/hicolor/scalable/apps/gimp.svg
+%{_datadir}/icons/hicolor/*/apps/gimp%{major}%{minor}.png
+%{_datadir}/icons/hicolor/scalable/apps/gimp%{major}%{minor}.svg
 
 %files data
 %dir %{_datadir}/gimp
@@ -309,9 +335,7 @@ find %{buildroot}%{_datadir}
 %doc %{_datadir}/doc/gimp-%{binver}
 
 %files devel-tools
-%{_bindir}/gimptool
 %{_bindir}/gimptool-%{lib_api_version}
-%{_mandir}/man1/gimptool.1*
 %{_mandir}/man1/gimptool-%{lib_api_version}.1*
 
 %changelog
