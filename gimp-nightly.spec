@@ -1,17 +1,17 @@
 %global major 2
 %global minor 99
-%global micro 16
+%global micro 17
 %global binver %{major}.%{minor}
 %global lib_api_version %{major}.%{minor}
 %global gettext_version 30
 
-%global commit 0fb801f7f5af61cb9d9d27095f0b2a13c5d8b639
-%global snapshotdate 20230722
+%global commit 095af5629c8e01ee94926bc81185cdda3aab2747
+%global snapshotdate 20230723
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:       gimp-nightly
 Version:    2.99.%{micro}^%{snapshotdate}.%{shortcommit}
-Release:    4%{?dist}
+Release:    1%{?dist}
 Summary:    GNU Image Manipulation Program
 
 License:    GPLv3+ and GPLv3
