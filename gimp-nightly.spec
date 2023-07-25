@@ -3,9 +3,9 @@
 %global major 2
 %global minor 99
 %global micro 17
-%global commit 8f09092ed3ff64c39e7bfd56e3022024cba389d1
+%global commit a7379664e9067c244261f9a2f3612c567ddb14e0
 %global snapshotyear 2023
-%global snapshotday 0724
+%global snapshotday 0725
 %global revision 1
 
 %forgemeta
