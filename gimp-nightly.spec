@@ -6,10 +6,11 @@
 %global commit a7379664e9067c244261f9a2f3612c567ddb14e0
 %global snapshotyear 2023
 %global snapshotday 0725
-%global revision 1
+%global revision 2
 
 %forgemeta
 
+%undefine distprefix
 %global binver %{major}.%{minor}
 %global lib_api_version %{major}.%{minor}
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
