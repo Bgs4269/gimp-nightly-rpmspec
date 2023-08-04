@@ -3,9 +3,9 @@
 %global major 2
 %global minor 99
 %global micro 17
-%global commit eee763b1c10185f1c5fb357e91a8b834b8611f9e
-%global snapshotyear 2023
-%global snapshotday 0801
+%global commit %(curl -s https://gitlab.gnome.org/api/v4/projects/1848/repository/commits?per_page=1 | sed -e "s@.*\\"id\\":\\"\\([^\\"]*\\)\\".*@\\1@")
+%global snapshotyear %(date +\%Y)
+%global snapshotday %(date +\%m\%d)
 %global revision 1
 
 %forgemeta
@@ -32,6 +32,7 @@ Patch2:    gimp-2.99-default-font.patch
 
 BuildRequires:  aalib-devel
 BuildRequires:  curl
+BuildRequires:  jq
 BuildRequires:  dbus-daemon
 BuildRequires:  desktop-file-utils
 BuildRequires:  enchant
