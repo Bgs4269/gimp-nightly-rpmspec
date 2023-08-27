@@ -329,6 +329,7 @@ find %{buildroot}%{_datadir}
 %{_datadir}/gimp/%{lib_api_version}/gimpressionist/
 %{_datadir}/gimp/%{lib_api_version}/gradients/
 %{_datadir}/gimp/%{lib_api_version}/icons/
+%{_datadir}/gimp/%{lib_api_version}/tests/
 %{_datadir}/gimp/%{lib_api_version}/images/
 %{_datadir}/gimp/%{lib_api_version}/palettes/
 %{_datadir}/gimp/%{lib_api_version}/patterns/
