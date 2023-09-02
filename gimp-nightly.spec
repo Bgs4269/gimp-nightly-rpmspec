@@ -91,7 +91,6 @@ BuildRequires:  pkgconfig(libunwind) >= 1.1.0
 BuildRequires:  pkgconfig(libwebp) >= 0.6.0
 BuildRequires:  pkgconfig(libwmf) >= 0.2.8
 BuildRequires:  pkgconfig(libxslt)
-BuildRequires:  pkgconfig(mypaint-brushes-1.0) >= 1.3.0
 BuildRequires:  pkgconfig(OpenEXR) >= 1.6.1
 BuildRequires:  pkgconfig(pangocairo) >= 1.44.0
 BuildRequires:  pkgconfig(pangoft2) >= 1.29.4
@@ -109,6 +108,7 @@ BuildRequires:  pkgconfig(xmu)
 BuildRequires:  pkgconfig(xpm)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  pkgconfig(cfitsio)
+BuildRequires:  mypaint-brushes-devel
 BuildRequires:  cmake
 BuildRequires:  flex
 BuildRequires:  bison
