@@ -112,7 +112,7 @@ Recommends:     gjs
 Recommends:     luajit
 Recommends:     lua-lgi-compat
 Recommends:     pygobject2
-Recommends:     mypaint-brushes
+Recommends:     mypaint-brushes1
 #Recommends:     rawtherapee
 #Recommends:     darktable
 Conflicts:      gimp-nightly
