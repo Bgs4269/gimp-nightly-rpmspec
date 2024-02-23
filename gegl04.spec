@@ -1,8 +1,8 @@
 %global apiver 0.4
 
 Name:           gegl04
-Version:        0.4.46
-Release:        5%{?dist}
+Version:        0.4.48
+Release:        1%{?dist}
 Summary:        Graph based image processing framework
 
 # The binary is under the GPL, while the libs are under LGPL.
