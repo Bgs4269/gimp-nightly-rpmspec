@@ -123,6 +123,7 @@ popd
 
 %files devel-docs
 %doc %{develdocdir}
+%doc /usr/share/doc/babl-%{apiver}
 
 %changelog
 * Wed Jul 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.102-3
