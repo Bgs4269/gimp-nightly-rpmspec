@@ -38,6 +38,7 @@ BuildRequires:	openssh-clients
 BuildRequires:	gobject-introspection-devel
 BuildRequires:	librsvg2-tools
 BuildRequires:	meson, vala
+BuildRequires:	gi-docgen
 BuildRequires:	pkgconfig(lcms2)
 
 %description
