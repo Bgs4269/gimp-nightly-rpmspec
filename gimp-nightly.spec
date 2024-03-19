@@ -2,7 +2,7 @@
 
 %global major 2
 %global minor 99
-%global micro 17
+%global micro 18
 %global commit %(curl -s https://gitlab.gnome.org/api/v4/projects/1848/repository/commits?per_page=1 | sed -e "s@.*\\"id\\":\\"\\([^\\"]*\\)\\".*@\\1@")
 %global snapshotyear %(date +\%Y)
 %global snapshotday %(date +\%m\%d)
