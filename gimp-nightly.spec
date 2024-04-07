@@ -1,20 +1,16 @@
-%global forgeurl https://gitlab.gnome.org/GNOME/gimp
-
 %global major 2
 %global minor 99
 %global micro 18
 %global commit %(curl -s https://gitlab.gnome.org/api/v4/projects/1848/repository/commits?per_page=1 | sed -e "s@.*\\"id\\":\\"\\([^\\"]*\\)\\".*@\\1@")
+%global data_commit %(curl -s https://gitlab.gnome.org/api/v4/projects/30464/repository/commits?per_page=1 | sed -e "s@.*\\"id\\":\\"\\([^\\"]*\\)\\".*@\\1@")
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
 %global snapshotyear %(date +\%Y)
 %global snapshotday %(date +\%m\%d)
+%global snapshotdate %{snapshotyear}%{snapshotday}
 %global revision 1
 
-%forgemeta
-
-%undefine distprefix
 %global binver %{major}.%{minor}
 %global lib_api_version %{major}.%{minor}
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate %{snapshotyear}%{snapshotday}
 %global gettext_version 30
 
 Name:       gimp-nightly
@@ -22,8 +18,9 @@ Version:    %{major}.%{minor}.%{micro}^%{snapshotdate}.%{shortcommit}
 Release:    %{revision}%{?dist}
 Summary:    GNU Image Manipulation Program
 License:    GPLv3+ and GPLv3
-URL:        %{forgeurl}
-Source0:    %{forgesource}
+URL:        https://gitlab.gnome.org/GNOME/gimp
+Source0:    https://gitlab.gnome.org/GNOME/gimp/-/archive/%{commit}.zip
+Source1:    https://gitlab.gnome.org/GNOME/gimp-data/-/archive/%{data_commit}.zip
 
 # https://gitlab.gnome.org/GNOME/gimp/-/issues/9633
 Patch1:    gimp-2.99-defcheck.patch
@@ -194,7 +191,8 @@ The %{name}-devel-tools package contains gimptool, a helper program to
 build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 
 %prep
-%forgeautosetup -p1
+%autosetup -p1 -n gimp-%{commit}
+mv %{SOURCE1} gimp-data
 
 # manually provide git-version.h to have the correct commit printed in Info
 echo "#ifndef __GIT_VERSION_H__
