@@ -1,29 +1,19 @@
-%global forgeurl https://gitlab.gnome.org/GNOME/gimp
-
 %global major 2
 %global minor 99
 %global micro 18
-%global commit %(curl -s https://gitlab.gnome.org/api/v4/projects/1848/repository/commits?per_page=1 | sed -e "s@.*\\"id\\":\\"\\([^\\"]*\\)\\".*@\\1@")
-%global snapshotyear %(date +\%Y)
-%global snapshotday %(date +\%m\%d)
-%global revision 1
-
-%forgemeta
-
-%undefine distprefix
 %global binver %{major}.%{minor}
 %global lib_api_version %{major}.%{minor}
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate %{snapshotyear}%{snapshotday}
 %global gettext_version 30
 
-Name:       gimp-nightly
-Version:    %{major}.%{minor}.%{micro}^%{snapshotdate}.%{shortcommit}
-Release:    %{revision}%{?dist}
+Name:       gimp-2.99
+Version:    2.99.%{micro}
+Release:    7%{?dist}
 Summary:    GNU Image Manipulation Program
+
 License:    GPLv3+ and GPLv3
-URL:        %{forgeurl}
-Source0:    %{forgesource}
+URL:        https://www.gimp.org/
+	
+Source0:    https://download.gimp.org/gimp/v2.99/gimp-2.99.%{micro}.tar.xz
 
 # https://gitlab.gnome.org/GNOME/gimp/-/issues/9633
 Patch1:    gimp-2.99-defcheck.patch
@@ -37,6 +27,10 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  enchant
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  pkgconfig(cfitsio)
+BuildRequires:  cmake
+BuildRequires:  flex
+BuildRequires:  bison
 BuildRequires:  gettext >= 0.19
 BuildRequires:  gjs
 BuildRequires:  glib-networking
@@ -107,10 +101,6 @@ BuildRequires:  pkgconfig(xfixes)
 BuildRequires:  pkgconfig(xmu)
 BuildRequires:  pkgconfig(xpm)
 BuildRequires:  pkgconfig(zlib)
-BuildRequires:  pkgconfig(cfitsio)
-BuildRequires:  cmake
-BuildRequires:  flex
-BuildRequires:  bison
 BuildRequires:  vala
 BuildRequires:  perl-lib
 BuildRequires:  gi-docgen
@@ -129,7 +119,7 @@ Recommends:     pygobject2
 Recommends:     mypaint-brushes1
 #Recommends:     rawtherapee
 #Recommends:     darktable
-Conflicts:      gimp-%{binver}
+Conflicts:      gimp-nightly
 
 %description
 GIMP (GNU Image Manipulation Program) is a powerful image composition and
@@ -145,7 +135,7 @@ Summary:        GIMP data files
 License:        LGPLv3+
 Requires:       %{name}-data = %{version}-%{release}
 BuildArch:      noarch
-Conflicts:      gimp-%{binver}-data
+Conflicts:      gimp-nightly-data
 
 %description data
 The %{name}-data package contains data files needed for the GNU Image
@@ -154,7 +144,7 @@ Manipulation Program (GIMP).
 %package libs
 Summary:        GIMP libraries
 License:        LGPLv3+
-Conflicts:      gimp-%{binver}-libs
+Conflicts:      gimp-nightly-libs
 
 %description libs
 The %{name}-libs package contains shared libraries needed for the GNU Image
@@ -165,7 +155,7 @@ Summary:        GIMP plugin and extension development kit
 License:        LGPLv3+
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 Requires:       %{name}-devel-tools = %{version}-%{release}
-Conflicts:      gimp-%{binver}-devel
+Conflicts:      gimp-nightly-devel
 
 %description devel
 The %{name}-devel package contains the static libraries and header files
@@ -177,7 +167,7 @@ Summary:        GIMP plugin and extension development documentation
 License:        LGPLv3+
 Requires:       %{name}-devel = %{version}-%{release}
 BuildArch:      noarch
-Conflicts:      gimp-%{binver}-devel-doc
+Conflicts:      gimp-nightly-devel-doc
 
 %description devel-doc
 The %{name}-devel-doc package contains documentation to
@@ -187,32 +177,17 @@ build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 Summary:        GIMP plugin and extension development tools
 License:        LGPLv3+
 Requires:       %{name}-devel = %{version}-%{release}
-Conflicts:      gimp-%{binver}-devel-tools
+Conflicts:      gimp-nightly-devel-tools
 
 %description devel-tools
 The %{name}-devel-tools package contains gimptool, a helper program to
 build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 
 %prep
-%forgeautosetup -p1
-
-# manually provide git-version.h to have the correct commit printed in Info
-echo "#ifndef __GIT_VERSION_H__
-#define __GIT_VERSION_H__
-#define GIMP_GIT_VERSION          \"GIMP_%{major}_%{minor}_%{micro}\"
-#define GIMP_GIT_VERSION_ABBREV   \"%{shortcommit}\"
-#define GIMP_GIT_LAST_COMMIT_YEAR \"%{snapshotyear}\"
-#endif /* __GIT_VERSION_H__ */
-" > git-version.h
+%autosetup -p1 -n gimp-2.99.%{micro}
 
 %build
-git submodule update --init
-%meson --buildtype=release \
-       -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues \
-       -Dbuild-id=%{snapshotdate}.%{shortcommit} \
-       -Drevision=%{revision} \
-       -Dpython=enabled \
-       -Dilbm=disabled
+%meson -Dpython=enabled -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues --buildtype=release
 %meson_build
 
 %install
@@ -249,7 +224,7 @@ rm -f %{buildroot}%{_libexecdir}/gimp-debug-tool
 
 # desktop file -- mention version and name it accordingly
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications \
-    --set-name="GIMP Nightly %{major}.%{minor}" \
+    --set-name="GIMP Beta %{major}.%{minor}" \
     --set-icon="gimp%{major}%{minor}" \
     %{buildroot}%{_datadir}/applications/gimp.desktop
 sed -i 's/org\.gimp\.GIMP/org.gimp.GIMP299/g' %{buildroot}%{_datadir}/metainfo/org.gimp.GIMP.appdata.xml
@@ -369,9 +344,6 @@ find %{buildroot}%{_datadir}
 %{_mandir}/man1/gimptool-%{lib_api_version}.1*
 
 %changelog
-* Sat Jul 22 19:29:00 CEST 2023 uriesk <uriesk@posteo.de> - 2.99.16^20230722.0fb801f
-- Update to commit to create nightly package
-
 * Sat Jul 22 19:29:00 CEST 2023 uriesk <uriesk@posteo.de> - 2.99.16
 - Update to 2.99.16
 
