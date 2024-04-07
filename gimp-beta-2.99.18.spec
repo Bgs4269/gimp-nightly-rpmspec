@@ -44,6 +44,7 @@ BuildRequires:  appstream >= 0.15.3
 BuildRequires:  meson >= 0.50.0
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
+BuildRequires:  pkgconfig(lua) >= 5.1.0
 BuildRequires:  pkgconfig(babl-0.1) >= 0.1.100
 BuildRequires:  pkgconfig(gegl-0.4) >= 0.4.46
 BuildRequires:  pkgconfig(libjxl) >= 0.6.1

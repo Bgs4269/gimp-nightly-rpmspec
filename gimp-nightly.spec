@@ -47,6 +47,7 @@ BuildRequires:  appstream >= 0.15.3
 BuildRequires:  meson >= 0.50.0
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
+BuildRequires:  pkgconfig(lua) >= 5.1.0
 BuildRequires:  pkgconfig(babl-0.1) >= 0.1.100
 BuildRequires:  pkgconfig(gegl-0.4) >= 0.4.46
 BuildRequires:  pkgconfig(libjxl) >= 0.6.1
@@ -192,7 +193,8 @@ build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 
 %prep
 %autosetup -p1 -n gimp-%{commit}
-mv %{SOURCE1} gimp-data
+unzip %{SOURCE1}
+mv gimp-data-%{data_commit}/* gimp-data/
 
 # manually provide git-version.h to have the correct commit printed in Info
 echo "#ifndef __GIT_VERSION_H__
