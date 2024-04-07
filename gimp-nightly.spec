@@ -206,7 +206,6 @@ echo "#ifndef __GIT_VERSION_H__
 " > git-version.h
 
 %build
-git submodule update --init
 %meson --buildtype=release \
        -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues \
        -Dbuild-id=%{snapshotdate}.%{shortcommit} \

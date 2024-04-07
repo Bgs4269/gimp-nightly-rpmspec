@@ -7,7 +7,7 @@
 
 Name:       gimp-2.99
 Version:    2.99.%{micro}
-Release:    7%{?dist}
+Release:    1%{?dist}
 Summary:    GNU Image Manipulation Program
 
 License:    GPLv3+ and GPLv3
@@ -187,7 +187,7 @@ build GNU Image Manipulation Program (GIMP) plug-ins and extensions.
 %autosetup -p1 -n gimp-2.99.%{micro}
 
 %build
-%meson -Dpython=enabled -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues --buildtype=release
+%meson -Dpython=enabled -Dbug-report-url=https://github.com/uriesk/gimp-nightly-rpmspec/issues -Dilbm=disabled --buildtype=release
 %meson_build
 
 %install
