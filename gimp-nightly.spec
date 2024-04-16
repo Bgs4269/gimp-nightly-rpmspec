@@ -23,7 +23,7 @@ Source0:    https://gitlab.gnome.org/GNOME/gimp/-/archive/%{commit}.zip
 Source1:    https://gitlab.gnome.org/GNOME/gimp-data/-/archive/%{data_commit}.zip
 
 # https://gitlab.gnome.org/GNOME/gimp/-/issues/9633
-Patch1:    gimp-2.99-defcheck.patch
+# Patch1:    gimp-2.99-defcheck.patch
 # bz#1706653
 Patch2:    gimp-2.99-default-font.patch
 
