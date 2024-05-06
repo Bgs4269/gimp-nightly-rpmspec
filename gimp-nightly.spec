@@ -1,6 +1,6 @@
 %global major 2
 %global minor 99
-%global micro 18
+%global micro 19
 %global commit %(curl -s https://gitlab.gnome.org/api/v4/projects/1848/repository/commits?per_page=1 | sed -e "s@.*\\"id\\":\\"\\([^\\"]*\\)\\".*@\\1@")
 %global data_commit %(curl -s https://gitlab.gnome.org/api/v4/projects/30464/repository/commits?per_page=1 | sed -e "s@.*\\"id\\":\\"\\([^\\"]*\\)\\".*@\\1@")
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
@@ -10,7 +10,7 @@
 %global revision 1
 
 %global binver %{major}.%{minor}
-%global lib_api_version %{major}.%{minor}
+%global lib_api_version 3.0
 %global gettext_version 30
 
 Name:       gimp-nightly
@@ -282,9 +282,9 @@ find %{buildroot}%{_datadir}
 %{_bindir}/gimp-%{binver}
 %{_bindir}/gimp-console-%{binver}
 %{_bindir}/gimp-script-fu-interpreter-3.0
-%{_bindir}/gimp-test-clipboard-%{lib_api_version}
+%{_bindir}/gimp-test-clipboard-%{binver}
 %{_libdir}/libgimp-scriptfu-3.0.so.0*
-%{_libexecdir}/gimp-debug-tool-%{lib_api_version}
+%{_libexecdir}/gimp-debug-tool-%{binver}
 
 %{_mandir}/man1/gimp-%{binver}.1*
 %{_mandir}/man1/gimp-console-%{binver}.1*
@@ -364,8 +364,8 @@ find %{buildroot}%{_datadir}
 %doc %{_datadir}/doc/gimp-%{binver}
 
 %files devel-tools
-%{_bindir}/gimptool-%{lib_api_version}
-%{_mandir}/man1/gimptool-%{lib_api_version}.1*
+%{_bindir}/gimptool-%{binver}
+%{_mandir}/man1/gimptool-%{binver}.1*
 
 %changelog
 * Sat Jul 22 19:29:00 CEST 2023 uriesk <uriesk@posteo.de> - 2.99.16^20230722.0fb801f
