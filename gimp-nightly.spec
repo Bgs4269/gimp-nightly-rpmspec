@@ -95,7 +95,7 @@ BuildRequires:  pkgconfig(pangoft2) >= 1.29.4
 BuildRequires:  pkgconfig(poppler-data) >= 0.4.9
 BuildRequires:  pkgconfig(poppler-glib) >= 0.69.0
 BuildRequires:  pkgconfig(pygobject-3.0)
-BuildRequires:  pkgconfig(python3) >= 3.6.0
+BuildRequires:  pkgconfig(python3) >= 3.12.0
 BuildRequires:  pkgconfig(shared-mime-info)
 BuildRequires:  pkgconfig(webkit2gtk-4.0) >= 2.20.3
 BuildRequires:  pkgconfig(x11)
