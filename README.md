@@ -4,7 +4,6 @@ Spec files and patches to make gimp beta and nightly build on copr.
 Used for [COPR REPOSITORY](https://copr.fedorainfracloud.org/coprs/thezoltan/gimp-nightly/)
 
 ## References
-https://copr.fedorainfracloud.org/coprs/uriesk/gimp-nightly/
 - [Forked COPR repo](https://copr.fedorainfracloud.org/coprs/uriesk/gimp-nightly/).
 - [Build instructions](https://www.gimp.org/source/howtos/gimp-git-build.html) from [gimp website](https://developer.gimp.org/core/setup/build/)
 - [babl](https://gegl.org/babl/)
